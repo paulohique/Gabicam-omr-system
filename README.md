@@ -182,3 +182,6 @@ python app.py
 No código do app, altere as variáveis `API_URL` para apontar para o endereço correto da sua API Flask (OCR) e, se necessário, do backend Node.js.
 
 ---
+### 5. Link repositório das API
+ 'https://github.com/paulohique/gabarito-ocr'
+---
