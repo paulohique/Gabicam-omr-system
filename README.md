@@ -103,7 +103,7 @@ Se você quiser salvar resultados na nuvem futuramente, basta implementar endpoi
 - **Criação de Provas**: Crie quantas provas quiser, cada uma com seu próprio gabarito.
 - **Cadastro de Gabarito**: Defina as respostas corretas de cada questão de forma simples e visual.
 - **Captura de Imagens**: Use a câmera do dispositivo ou selecione imagens da galeria. As imagens são salvas de forma persistente.
-- **Correção Automática**: O app envia a imagem para uma API de OCR, que retorna os acertos, nota e detalhes da correção.
+- **Correção Automática**: O app envia a imagem para uma API de OMR, que retorna os acertos, nota e detalhes da correção.
 - **Visualização de Resultados**: Veja o histórico de correções, notas e estatísticas de cada prova/aluno.
 - **Gerenciamento de Dados**: Limpe provas, imagens ou todos os dados do app facilmente.
 - **Thumbnails Persistentes**: As miniaturas das provas são exibidas mesmo após fechar e reabrir o app.
@@ -164,7 +164,7 @@ npm start
 
 ### 3. Iniciar a API Flask (OCR - app.py)
 
-Se você utiliza uma API Flask para OCR, acesse a pasta onde está o `app.py` e rode:
+Se você utiliza uma API Flask para OMR, acesse a pasta onde está o `app.py` e rode:
 ```bash
 cd <gabarito-ocr>
 # (Recomenda-se usar um ambiente virtual Python)
