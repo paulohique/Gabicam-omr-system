@@ -2,7 +2,7 @@
 
 Este é um projeto [Expo](https://expo.dev) criado com [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
-O **GabiCam** é um aplicativo React Native para capturar, corrigir e gerenciar provas escolares de forma automatizada, utilizando reconhecimento óptico de marcação (OCR).
+O **GabiCam** é um aplicativo React Native para capturar, corrigir e gerenciar provas escolares de forma automatizada, utilizando OpenCV e OMR para corrigir os gabaritos.
 
 ---
 
