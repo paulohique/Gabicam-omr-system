@@ -153,6 +153,49 @@ Se você quiser salvar resultados na nuvem futuramente, basta implementar endpoi
 
 ## Como Iniciar o Projeto
 
+### 0. Configurar o Banco de Dados MySQL
+
+**IMPORTANTE:** O projeto utiliza MySQL para armazenar dados de usuários, provas e resultados.
+
+#### Pré-requisitos:
+- MySQL Server instalado (versão 5.7 ou superior)
+- Cliente MySQL (MySQL Workbench, phpMyAdmin, ou linha de comando)
+
+#### Passos para criar o banco de dados:
+
+**Opção 1: Usando o script SQL fornecido**
+```bash
+# Abra o MySQL via terminal
+mysql -u root -p
+
+# Ou execute o script diretamente
+mysql -u root -p < server/database/gabicam_db.sql
+```
+
+**Opção 2: Executar o script manualmente**
+1. Abra o arquivo `server/database/gabicam_db.sql` em seu cliente MySQL
+2. Execute o script completo para criar:
+   - Banco de dados `gabicam_db`
+   - Tabela `usuarios` (dados de login)
+   - Tabela `provas` (provas e gabaritos)
+   - Tabela `imagens_provas` (resultados das correções)
+
+#### Configurar as credenciais do banco:
+Edite o arquivo `server/database/config.js` com suas credenciais:
+```javascript
+const pool = mysql.createPool({
+  host: 'localhost',      // Host do MySQL
+  user: 'root',           // Seu usuário MySQL
+  password: '0000',       // Sua senha MySQL
+  database: 'gabicam_db', // Nome do banco (não altere)
+  // ...
+});
+```
+
+**⚠️ ATENÇÃO:** Não compartilhe suas credenciais do banco de dados em repositórios públicos!
+
+---
+
 ### 1. Iniciar o App Mobile (Expo)
 
 No diretório raiz do projeto, execute:
@@ -164,13 +207,16 @@ npx expo start
 
 ### 2. Iniciar o Backend Node.js (Server)
 
-Se o projeto possuir um backend Node.js (por exemplo, para autenticação, provas, etc), acesse a pasta `server` e rode:
+**IMPORTANTE:** Certifique-se de que o banco de dados MySQL está rodando e configurado antes de iniciar o servidor.
+
+Acesse a pasta `server` e rode:
 ```bash
 cd server
 npm install
 npm start
 ```
-- O servidor geralmente roda em `http://localhost:5000` ou porta definida no código.
+- O servidor geralmente roda em `http://localhost:3000`
+- Você deve ver a mensagem: ✅ Conexão com o banco de dados estabelecida com sucesso!
 
 ### 3. Iniciar a API Flask (OCR - app.py)
 
@@ -189,9 +235,60 @@ python app.py
 
 ### 4. Configurar URLs no App
 
-No código do app, altere as variáveis `API_URL` para apontar para o endereço correto da sua API Flask (OCR) e, se necessário, do backend Node.js.
+No código do app, altere as variáveis `API_URL` para apontar para o endereço correto:
+- **API Flask (OCR):** IP da máquina + porta 5000
+- **Backend Node.js:** IP da máquina + porta 3000
+
+**Veja a seção "URLs e Endpoints para Configuração" acima para mais detalhes.**
 
 ---
-### 5. Link repositório das API
- 'https://github.com/paulohique/gabarito-ocr'
+
+## Repositórios Relacionados
+
+- **API de OCR/OMR (Flask):** [https://github.com/paulohique/gabarito-ocr](https://github.com/paulohique/gabarito-ocr)
+  - Reconhecimento óptico das folhas de resposta
+  - Detecção de marcações e correção automática
+
 ---
+
+## Estrutura do Banco de Dados
+
+O banco de dados `gabicam_db` possui 3 tabelas principais:
+
+### Tabela: `usuarios`
+| Campo         | Tipo         | Descrição                           |
+|---------------|--------------|-------------------------------------|
+| id            | INT          | ID único do usuário (PK)            |
+| matricula     | VARCHAR(20)  | Matrícula do usuário (UNIQUE)       |
+| senha         | VARCHAR(255) | Senha criptografada (bcrypt)        |
+| nome          | VARCHAR(100) | Nome completo do usuário            |
+| created_at    | TIMESTAMP    | Data de criação do registro         |
+| updated_at    | TIMESTAMP    | Data da última atualização          |
+
+### Tabela: `provas`
+| Campo             | Tipo         | Descrição                              |
+|-------------------|--------------|----------------------------------------|
+| id                | INT          | ID único da prova (PK)                 |
+| usuario_id        | INT          | ID do usuário criador (FK)             |
+| nome              | VARCHAR(100) | Nome da prova                          |
+| data_criacao      | TIMESTAMP    | Data de criação                        |
+| gabarito          | JSON         | JSON com respostas corretas            |
+| nota_por_questao  | DECIMAL(5,2) | Valor de cada questão (padrão: 1.00)   |
+| media_geral       | FLOAT        | Média calculada das correções          |
+
+### Tabela: `imagens_provas`
+| Campo                 | Tipo                                 | Descrição                              |
+|-----------------------|--------------------------------------|----------------------------------------|
+| id                    | INT                                  | ID único do resultado (PK)             |
+| prova_id              | INT                                  | ID da prova (FK)                       |
+| usuario_id            | INT                                  | ID do usuário (FK)                     |
+| nome_aluno            | VARCHAR(100)                         | Nome do aluno avaliado                 |
+| data_criacao          | TIMESTAMP                            | Data da correção                       |
+| status                | ENUM('pendente', 'em_analise', 'corrigido') | Status da correção         |
+| acertos               | INT                                  | Número de questões corretas            |
+| total_questoes        | INT                                  | Total de questões da prova             |
+| nota                  | DECIMAL(4,2)                         | Nota calculada                         |
+| respostas_detectadas  | TEXT                                 | JSON serializado com respostas do aluno|
+| gabarito_usado        | TEXT                                 | JSON serializado do gabarito usado     |
+
+**Script completo disponível em:** [server/database/gabicam_db.sql](server/database/gabicam_db.sql)
