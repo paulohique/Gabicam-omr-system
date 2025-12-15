@@ -28,7 +28,7 @@ import HeaderPadrao from '../../components/HeaderPadrao';
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 // 🔹 URL da API de leitura de QR Code
-const QR_API_URL = 'http://192.168.18.6:5001/ler-qrcode';
+const QR_API_URL = 'http://172.20.10.4:5001/ler-qrcode';
 
 interface Prova {
   id: string;

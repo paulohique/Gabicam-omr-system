@@ -38,10 +38,20 @@ Para que o app funcione corretamente, você deve configurar a URL da API de corr
 const API_URL = 'http://sua-url-api:5000/corrigir';
 ```
 
-**Arquivos onde você deve alterar a URL:**
+**⚠️ IMPORTANTE: Configuração do IP da Rede**
+
+**Você DEVE alterar TODAS as ocorrências de `API_URL` em TODO o projeto** para usar o IP da rede que você estiver usando. 
+
+Por exemplo:
+- Se o IP da sua máquina na rede local for `192.168.1.100`, use: `http://192.168.1.100:5000/corrigir`
+- Se estiver testando localmente no emulador Android, pode usar: `http://10.0.2.2:5000/corrigir`
+- Se estiver usando Expo Go no celular, use o IP da sua máquina na mesma rede Wi-Fi
+
+**Arquivos onde você DEVE alterar a URL:**
 - `app/(tabs)/CorrecaoScreen.tsx`
 - `app/(tabs)/TesteScreen.tsx`
-- (Se houver outros arquivos que usam OCR, procure por `API_URL`)
+- `services/api.ts` (se houver configurações globais de API)
+- Qualquer outro arquivo que faça requisições HTTP (procure por `API_URL` ou `http://` no projeto)
 
 **O que a API deve aceitar:**
 - Receber uma imagem (formato JPEG recomendado) e o gabarito da prova.
