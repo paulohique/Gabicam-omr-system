@@ -9,7 +9,7 @@ import {
   Alert,
   Platform
 } from 'react-native';
-import { Camera, CameraType } from 'expo-camera';
+import { Camera, CameraView } from 'expo-camera';
 
 // Cores do tema neomorphism
 const COLORS = {
@@ -54,7 +54,7 @@ export const CreateEditExamScreen: React.FC<CreateEditExamScreenProps> = ({ clos
   const [showCameraModal, setShowCameraModal] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [cameraPermission, setCameraPermission] = useState<boolean | null>(null);
-  const cameraRef = useRef<Camera | null>(null);
+  const cameraRef = useRef<CameraView | null>(null);
 
   const addNewExam = () => {
     if (examName.trim() === '') {
@@ -131,9 +131,9 @@ export const CreateEditExamScreen: React.FC<CreateEditExamScreenProps> = ({ clos
   if (showCameraModal && editingExam) {
     return (
       <View style={styles.cameraContainer}>
-        <Camera
+        <CameraView
           style={styles.camera}
-          type={CameraType.back}
+          facing="back"
           ref={cameraRef}
         >
           <View style={styles.cameraControls}>
@@ -158,7 +158,7 @@ export const CreateEditExamScreen: React.FC<CreateEditExamScreenProps> = ({ clos
               </TouchableOpacity>
             </View>
           </View>
-        </Camera>
+        </CameraView>
       </View>
     );
   }

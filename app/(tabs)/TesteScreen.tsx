@@ -13,7 +13,7 @@ import {
   Alert,
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import * as FileSystem from 'expo-file-system';
+import * as FileSystem from 'expo-file-system/legacy';
 import ImageResizer from 'react-native-image-resizer';
 import { useRouter } from 'expo-router';
 import { Feather } from '@expo/vector-icons';

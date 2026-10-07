@@ -80,6 +80,6 @@ export default function RootLayout() {
   );
 }
 
-function TabBarIcon(props: { name: React.ComponentProps<typeof Feather>['name']; color: string }) {
+function TabBarIcon(props: { name: React.ComponentProps<typeof Feather>['name']; color: React.ComponentProps<typeof Feather>['color'] }) {
   return <Feather size={24} style={{ marginBottom: -3 }} {...props} />;
 }
